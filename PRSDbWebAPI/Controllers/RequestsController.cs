@@ -37,7 +37,7 @@ namespace PRSDbWebAPI.Controllers
             if (_context.Requests == null) {
                 return NotFound();
             }
-            var requests = await _context.Requests.Where(x => x.UserId == UserId && x.Status == "REVIEW").ToListAsync();
+            var requests = await _context.Requests.Where(x => x.UserId != UserId && x.Status == "REVIEW").ToListAsync();
             return requests;
         }
 
@@ -49,7 +49,9 @@ namespace PRSDbWebAPI.Controllers
           {
               return NotFound();
           }
-            var request = await _context.Requests.FindAsync(id);
+            var request = await _context.Requests.Include(x => x.User).Include(x => x.RequestLines)!.ThenInclude(x => x.Product)
+                                                                                          .SingleOrDefaultAsync(x => x.Id == id);             
+                                    
 
             if (request == null)
             {

@@ -20,8 +20,8 @@ namespace PRSDbWebAPI.Controllers
             _context = context;
         }
 
-        // GET: api/Vendors
-        [HttpGet]
+            // GET: api/Vendors
+            [HttpGet]
         public async Task<ActionResult<IEnumerable<Vendor>>> GetVendors()
         {
           if (_context.Vendors == null)
